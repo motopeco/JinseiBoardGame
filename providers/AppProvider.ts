@@ -9,13 +9,14 @@ export default class AppProvider {
 
   public async boot() {
     // IoC container is ready
-    if (this.app.environment === 'web') {
-      await import('../start/socket')
-    }
   }
 
   public async ready() {
     // App is ready
+    if (this.app.environment === 'web') {
+      await import('App/Services/Firebase')
+      await import('../start/socket')
+    }
   }
 
   public async shutdown() {
