@@ -21,6 +21,6 @@ export default class User extends BaseModel {
   public static async createUserIfNotExist(firebaseUID: string) {
     const name = uid()
 
-    await User.firstOrCreate({ uid: firebaseUID }, { name })
+    return await User.firstOrCreate({ uid: firebaseUID }, { name })
   }
 }

@@ -3,6 +3,8 @@ import { defineComponent } from 'vue'
 import firebaseApp from '@/plugins/firebaseApp'
 import { getAuth, onAuthStateChanged, signInAnonymously } from '@firebase/auth'
 import websocket from '@/plugins/websocket'
+import { useStore } from 'vuex'
+import { key } from '@/store'
 
 const auth = getAuth(firebaseApp)
 
@@ -24,6 +26,9 @@ onAuthStateChanged(auth, async (value) => {
 export default defineComponent({
   name: 'LoginPage',
   setup() {
+    const store = useStore(key)
+    websocket.setStore(store)
+
     return {
       login,
       send,
@@ -36,5 +41,6 @@ export default defineComponent({
   <div>
     <a @click="login">ログイン</a>
     <a @click="send">送信</a>
+    {{ $store.state.auth }}
   </div>
 </template>
