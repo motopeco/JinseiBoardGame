@@ -38,9 +38,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <div>
-    <a @click="login">ログイン</a>
-    <a @click="send">送信</a>
-    {{ $store.state.auth }}
-  </div>
+  <el-row :gutter="20">
+    <el-col :span="12" :offset="6">
+      <el-button>ログイン</el-button>
+    </el-col>
+  </el-row>
 </template>
