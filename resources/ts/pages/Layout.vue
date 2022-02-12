@@ -1,9 +1,26 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { getAuth, onAuthStateChanged, signInAnonymously } from '@firebase/auth'
+import firebaseApp from '@/plugins/firebaseApp'
+import websocket from '@/plugins/websocket'
+import { useStore } from 'vuex'
+import { key } from '@/store'
+
+const auth = getAuth(firebaseApp)
+
+onAuthStateChanged(auth, async (value) => {
+  if (!value) return
+
+  const token = await value.getIdToken()
+  websocket.connect(token)
+})
 
 export default defineComponent({
   name: 'GeneralLayout',
-  setup() {},
+  setup() {
+    const store = useStore(key)
+    websocket.setStore(store)
+  },
 })
 </script>
 

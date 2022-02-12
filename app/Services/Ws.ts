@@ -6,6 +6,8 @@ import { auth } from 'firebase-admin'
 import DecodedIdToken = auth.DecodedIdToken
 import AuthController from 'App/Controllers/Ws/AuthController'
 import LobbyController from 'App/Controllers/Ws/LobbyController'
+import MenuController from 'App/Controllers/Ws/MenuController'
+import SocketClientEvent from '../../constants/SocketClientEvent'
 
 class Ws {
   public io: Server
@@ -54,6 +56,9 @@ class Ws {
   }
 
   private route(socket: Socket) {
+    const menu = new MenuController(socket)
+    socket.on(SocketClientEvent.ClickStartButton, menu.onClickStartButton)
+
     const lobby = new LobbyController(socket)
     socket.on('lobbies', lobby.index)
   }

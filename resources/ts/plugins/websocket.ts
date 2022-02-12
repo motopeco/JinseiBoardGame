@@ -2,6 +2,7 @@ import io, { Socket } from 'socket.io-client'
 import { Store } from 'vuex'
 import { RootState } from '@/store/state'
 import SocketEvent from '../../../constants/SocketEvent'
+import SocketServerEvent from '../../../constants/SocketServerEvent'
 
 class WebSocket {
   private io: Socket
@@ -22,7 +23,7 @@ class WebSocket {
       console.log('connect')
     })
 
-    this.io.on(SocketEvent.Auth, (result: SocketData.Auth) => {
+    this.io.on(SocketServerEvent.Auth, (result: SocketServerData.Auth) => {
       this.store.commit('auth/login', result.uid)
     })
   }
