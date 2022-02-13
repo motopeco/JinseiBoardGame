@@ -32,7 +32,7 @@ export default class RoomUser extends BaseModel {
 
     room.gameData.players.push({
       turnIndex: room.gameData.players.length,
-      playerId: userId,
+      playerId: Number(userId),
       isReady: false,
       money: 0,
     })

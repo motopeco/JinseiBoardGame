@@ -7,10 +7,12 @@ export const userStatusModule: Module<UserStatusState, RootState> = {
   state: {
     status: 0,
     roomId: -1,
+    gameData: undefined,
   },
   mutations: {
     update(state, userStatus: UserStatus) {
       state.roomId = userStatus.roomId
+      state.gameData = userStatus.gameData
     },
   },
 }

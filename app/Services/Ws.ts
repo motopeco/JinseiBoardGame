@@ -80,6 +80,10 @@ class Ws {
           break
         case SocketClientEvent.LeaveRoom:
           await room.leaveRoom(callback)
+          break
+        case SocketClientEvent.ReadyGame:
+          await game.ready(callback)
+          break
       }
     })
   }

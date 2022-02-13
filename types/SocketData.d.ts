@@ -15,6 +15,10 @@ declare namespace SocketServerData {
   interface LeaveRoomResult {
     isSuccess: boolean
   }
+
+  interface CommonResult {
+    isSuccess: boolean
+  }
   // ---------------------------------------------
 
   interface UserStatus {

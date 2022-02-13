@@ -23,9 +23,16 @@ export default defineComponent({
       })
     }
 
+    const ready = () => {
+      websocket.getIO().emit(SocketClientEvent.ReadyGame, {}, (response) => {
+        console.log('ready', response)
+      })
+    }
+
     return {
       createRoom,
       leaveRoom,
+      ready,
     }
   },
 })
@@ -43,6 +50,9 @@ export default defineComponent({
         </el-col>
         <el-col :span="24">
           <el-button @click="leaveRoom">ルーム退室</el-button>
+        </el-col>
+        <el-col :span="24">
+          <el-button @click="ready">レディー</el-button>
         </el-col>
         <el-col :span="24">{{ $store.state.userStatus }}</el-col>
       </el-row>

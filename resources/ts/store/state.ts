@@ -10,4 +10,5 @@ export interface AuthState {
 export interface UserStatusState {
   status: number
   roomId: number
+  gameData?: GameData
 }
