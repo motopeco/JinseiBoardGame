@@ -4,14 +4,23 @@ import DecodedIdToken = auth.DecodedIdToken
 import User from 'App/Models/User'
 import SocketEvent from '../../../constants/SocketEvent'
 import SocketServerEvent from '../../../constants/SocketServerEvent'
+import BaseController from 'App/Controllers/Ws/BaseController'
 
-export default class AuthController {
-  public async login(socket: Socket, idToken: DecodedIdToken) {
+export default class AuthController extends BaseController {
+  public async login(idToken: DecodedIdToken) {
     const uid = idToken.uid
     const user = await User.createUserIfNotExist(uid)
+  }
 
-    const data: SocketServerData.Auth = { uid: user.uid }
+  public async getUser(callback: any) {
+    const idToken = this.socket.data as DecodedIdToken
+    const uid = idToken.uid
+    const user = await User.getUserByUID(uid)
+    if (!user) {
+      throw new Error('foobar')
+    }
 
-    socket.emit(SocketServerEvent.Auth, data)
+    const data: SocketServerData.GetUserResult = { uid: user.uid }
+    callback(data)
   }
 }

@@ -1,7 +1,7 @@
 import { Socket } from 'socket.io'
 
 export default class BaseController {
-  protected socket: Socket
+  public socket: Socket
 
   constructor(socket: Socket) {
     this.socket = socket

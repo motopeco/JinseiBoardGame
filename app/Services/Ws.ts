@@ -8,6 +8,7 @@ import AuthController from 'App/Controllers/Ws/AuthController'
 import LobbyController from 'App/Controllers/Ws/LobbyController'
 import MenuController from 'App/Controllers/Ws/MenuController'
 import SocketClientEvent from '../../constants/SocketClientEvent'
+import RoomController from 'App/Controllers/Ws/RoomController'
 
 class Ws {
   public io: Server
@@ -32,8 +33,8 @@ class Ws {
 
       if (idToken) {
         socket.data = idToken
-        const authController = new AuthController()
-        await authController.login(socket, idToken)
+        const authController = new AuthController(socket)
+        await authController.login(idToken)
 
         return next()
       }
@@ -56,11 +57,26 @@ class Ws {
   }
 
   private route(socket: Socket) {
+    const auth = new AuthController(socket)
+    const room = new RoomController(socket)
     const menu = new MenuController(socket)
-    socket.on(SocketClientEvent.ClickStartButton, menu.onClickStartButton)
-
     const lobby = new LobbyController(socket)
-    socket.on('lobbies', lobby.index)
+
+    socket.onAny(async (event, args, callback) => {
+      switch (event) {
+        case SocketClientEvent.GetUser:
+          await auth.getUser(callback)
+          break
+        case SocketClientEvent.CreateNewRoom:
+          await room.createNewRoom(args, callback)
+          break
+        case SocketClientEvent.JoinRoom:
+          await room.joinRoom(args, callback)
+          break
+        case SocketClientEvent.LeaveRoom:
+          await room.leaveRoom(callback)
+      }
+    })
   }
 }
 
