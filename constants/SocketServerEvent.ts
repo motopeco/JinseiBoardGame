@@ -1,7 +1,14 @@
 const SocketServerEvent = {
   Auth: 'auth',
-  CreateNewRoomSuccess: 'create_new_room_success',
   UserStatus: 'user_status',
+  // game event
+  ShowTurnInfo: 'show_turn_info',
+  HideTurnInfo: 'hide_turn_info',
+  ShowRoulette: 'show_roulette',
+  HideRoulette: 'hide_roulette',
+  MovePiece: 'move_piece',
+  ShowMessage: 'show_message',
+  HideMessage: 'hide_message',
 } as const
 
 type SocketServerEvent = typeof SocketServerEvent[keyof typeof SocketServerEvent]

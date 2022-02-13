@@ -24,6 +24,8 @@ declare interface GamePlayer {
   isReady: boolean
   // お金
   money: number
+  x: number
+  y: number
 }
 
 declare interface GameData {

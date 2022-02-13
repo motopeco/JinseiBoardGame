@@ -26,6 +26,25 @@ declare namespace SocketServerData {
     roomId: number
     gameData?: GameData
   }
+
+  // ゲームプロセス
+  interface ShowTurnInfoResult {
+    message: string
+  }
+
+  interface HideTurnInfoResult {}
+
+  interface ShowRouletteResult {}
+
+  interface HideRouletteResult {}
+
+  interface MovePieceResult {}
+
+  interface ShowMessageResult {
+    message: string
+  }
+
+  interface HideMessageResult {}
 }
 
 declare namespace SocketClientData {

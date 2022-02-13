@@ -35,6 +35,8 @@ export default class RoomUser extends BaseModel {
       playerId: Number(userId),
       isReady: false,
       money: 0,
+      x: 0,
+      y: 0,
     })
     room.useTransaction(trx)
     await room.save()

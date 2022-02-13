@@ -31,4 +31,20 @@ export default class Game {
     room.useTransaction(trx)
     await room.save()
   }
+
+  public static async next(userId: number, roomId: number, trx: TransactionClientContract) {
+    const room = await Room.getRoom(roomId, trx)
+    if (!room) {
+      return false
+    }
+
+    const gameData = room.gameData
+    const index = gameData.players.findIndex((p) => {
+      return Number(p.playerId) === userId
+    })
+    if (index < 0) return false
+
+    const player = gameData.players[index]
+    if (gameData.turnPlayer !== player.playerId) return
+  }
 }

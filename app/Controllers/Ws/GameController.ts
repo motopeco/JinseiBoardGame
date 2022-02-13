@@ -44,4 +44,39 @@ export default class GameController extends BaseController {
       return callback(result)
     }
   }
+
+  public async start() {}
+
+  public async next(callback: any) {
+    const trx = await Database.transaction()
+    const result: CommonResult = { isSuccess: false }
+
+    try {
+      const idToken = this.socket.data as DecodedIdToken
+
+      const user = await User.getUserByUID(idToken.uid, trx)
+      if (!user) {
+        await trx.rollback()
+        return callback(result)
+      }
+
+      const roomUser = await RoomUser.getByPlayerId(user.id, trx)
+      if (!roomUser) {
+        await trx.rollback()
+        return callback(result)
+      }
+
+      await Game.next(Number(user.id), roomUser.roomId, trx)
+
+      await trx.commit()
+
+      await Event.emit('notification', roomUser.roomId)
+      result.isSuccess = true
+      return callback(result)
+    } catch (e) {
+      Logger.error(e)
+      await trx.rollback()
+      return callback(result)
+    }
+  }
 }

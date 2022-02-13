@@ -84,6 +84,9 @@ class Ws {
         case SocketClientEvent.ReadyGame:
           await game.ready(callback)
           break
+        case SocketClientEvent.DoNextGame:
+          await game.next(callback)
+          break
       }
     })
   }
