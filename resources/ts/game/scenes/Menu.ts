@@ -18,7 +18,6 @@ export default class Menu extends Phaser.Scene {
     const startButton = new Button(rect)
     startButton.on('click', () => {
       console.log('click')
-      websocket.getIO().emit(SocketClientEvent.ClickStartButton)
     })
   }
 }

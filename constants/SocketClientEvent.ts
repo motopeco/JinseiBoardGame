@@ -7,7 +7,12 @@ const SocketClientEvent = {
   JoinRoom: 'join_room',
   // ルーム退室
   LeaveRoom: 'leave_room',
-  ClickStartButton: 'click_start_button',
+  // ゲーム準備
+  ReadyGame: 'ready',
+  // ゲーム開始（オーナーのみ）
+  StartGame: 'start',
+  // ゲーム進行用（ターンのプレイヤーのみ）
+  DoNextGame: 'do_next_game',
 } as const
 
 type SocketClientEvent = typeof SocketClientEvent[keyof typeof SocketClientEvent]

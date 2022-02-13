@@ -4,6 +4,7 @@ import { RootState } from '@/store/state'
 import SocketEvent from '../../../constants/SocketEvent'
 import SocketServerEvent from '../../../constants/SocketServerEvent'
 import SocketClientEvent from '../../../constants/SocketClientEvent'
+import UserStatus = SocketServerData.UserStatus
 
 class WebSocket {
   private io: Socket
@@ -26,6 +27,11 @@ class WebSocket {
       this.io.emit(SocketClientEvent.GetUser, {}, (result: SocketServerData.GetUserResult) => {
         this.store.commit('auth/login', result.uid)
       })
+    })
+
+    this.io.on(SocketServerEvent.UserStatus, (result: UserStatus) => {
+      console.log(result)
+      this.store.commit('userStatus/update', result)
     })
   }
 

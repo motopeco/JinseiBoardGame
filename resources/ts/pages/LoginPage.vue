@@ -34,9 +34,18 @@ export default defineComponent({
 <template>
   <el-row :gutter="20">
     <el-col :span="12" :offset="6">
-      <el-button>ログイン</el-button>
-      <el-button @click="createRoom">ルーム作成</el-button>
-      <el-button @click="leaveRoom">ルーム退室</el-button>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-button>ログイン</el-button>
+        </el-col>
+        <el-col :span="24">
+          <el-button @click="createRoom">ルーム作成</el-button>
+        </el-col>
+        <el-col :span="24">
+          <el-button @click="leaveRoom">ルーム退室</el-button>
+        </el-col>
+        <el-col :span="24">{{ $store.state.userStatus }}</el-col>
+      </el-row>
     </el-col>
   </el-row>
 </template>

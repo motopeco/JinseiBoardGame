@@ -3,6 +3,7 @@ import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
 import { TransactionClientContract } from '@ioc:Adonis/Lucid/Database'
 import Encryption from '@ioc:Adonis/Core/Encryption'
 import Hash from '@ioc:Adonis/Core/Hash'
+import GameStatus from '../../constants/GameStatus'
 
 export default class Room extends BaseModel {
   @column({ isPrimary: true })
@@ -13,6 +14,9 @@ export default class Room extends BaseModel {
 
   @column()
   public password: string
+
+  @column()
+  public gameData: GameData
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
@@ -25,6 +29,14 @@ export default class Room extends BaseModel {
     room.useTransaction(trx)
     room.name = name
     room.password = await Hash.make(password)
+    room.gameData = {
+      isStart: false,
+      status: 0,
+      players: [],
+      turnPlayer: 0,
+      turnNumber: 0,
+    }
+
     await room.save()
 
     return room

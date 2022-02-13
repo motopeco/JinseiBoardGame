@@ -16,6 +16,12 @@ declare namespace SocketServerData {
     isSuccess: boolean
   }
   // ---------------------------------------------
+
+  interface UserStatus {
+    // status > 0 の場合、ルームID
+    roomId: number
+    gameData?: GameData
+  }
 }
 
 declare namespace SocketClientData {

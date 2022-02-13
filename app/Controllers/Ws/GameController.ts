@@ -3,11 +3,8 @@ import { auth } from 'firebase-admin'
 import DecodedIdToken = auth.DecodedIdToken
 import BaseController from 'App/Controllers/Ws/BaseController'
 
-export default class LobbyController extends BaseController {
-  public async index(msg) {
-    // const idToken = socket.data as DecodedIdToken
-    //
-
+export default class GameController extends BaseController {
+  public async ready(msg) {
     console.log(msg)
   }
 }

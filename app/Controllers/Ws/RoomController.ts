@@ -6,6 +6,10 @@ import Room from 'App/Models/Room'
 import User from 'App/Models/User'
 import RoomUser from 'App/Models/RoomUser'
 import Logger from '@ioc:Adonis/Core/Logger'
+import UserStatus = SocketServerData.UserStatus
+import SocketServerEvent from '../../../constants/SocketServerEvent'
+import RoomUsers from 'Database/migrations/1644719035483_room_users'
+import Event from '@ioc:Adonis/Core/Event'
 
 export default class RoomController extends BaseController {
   public async createNewRoom(data: SocketClientData.CreateRoomData, callback: any) {
@@ -34,6 +38,11 @@ export default class RoomController extends BaseController {
       await trx.commit()
 
       result.isSuccess = true
+
+      this.socket.join(`room${room.id}`)
+
+      await Event.emit('notification', room.id)
+
       return callback(result)
     } catch (e) {
       Logger.error(e)
@@ -74,6 +83,11 @@ export default class RoomController extends BaseController {
       await trx.commit()
 
       result.isSuccess = true
+
+      this.socket.join(`room${room.id}`)
+
+      await Event.emit('notification', room.id)
+
       return callback(result)
     } catch (e) {
       Logger.error(e)
@@ -104,10 +118,21 @@ export default class RoomController extends BaseController {
         return callback(result)
       }
 
-      await RoomUser.leaveAllRoom(user.id, trx)
+      const roomUser = await RoomUser.getByPlayerId(user.id, trx)
+      if (!roomUser) {
+        await trx.rollback()
+        return callback(result)
+      }
+
+      await RoomUser.leaveAllRoom(roomUser.roomId, user.id, trx)
       await trx.commit()
 
       result.isSuccess = true
+
+      this.socket.leave(`room${roomUser.roomId}`)
+
+      await Event.emit('notification', roomUser.roomId)
+
       return callback(result)
     } catch (e) {
       Logger.error(e)

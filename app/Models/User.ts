@@ -2,6 +2,9 @@ import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
 import { uid } from 'uid/secure'
 import { TransactionClientContract } from '@ioc:Adonis/Lucid/Database'
+import RoomUser from 'App/Models/RoomUser'
+import { Socket } from 'socket.io'
+import Event from '@ioc:Adonis/Core/Event'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -32,5 +35,17 @@ export default class User extends BaseModel {
     }
 
     return await query.first()
+  }
+
+  public static async websocketComebackProcess(uid: string, socket: Socket) {
+    const user = await this.getUserByUID(uid)
+    if (!user) return
+
+    const roomUser = await RoomUser.getByPlayerId(user.id)
+    if (roomUser) {
+      socket.join(`room${roomUser.roomId}`)
+
+      await Event.emit('notification', roomUser.roomId)
+    }
   }
 }

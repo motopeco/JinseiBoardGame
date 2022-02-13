@@ -5,10 +5,10 @@ import Logger from '@ioc:Adonis/Core/Logger'
 import { auth } from 'firebase-admin'
 import DecodedIdToken = auth.DecodedIdToken
 import AuthController from 'App/Controllers/Ws/AuthController'
-import LobbyController from 'App/Controllers/Ws/LobbyController'
-import MenuController from 'App/Controllers/Ws/MenuController'
+import GameController from 'App/Controllers/Ws/GameController'
 import SocketClientEvent from '../../constants/SocketClientEvent'
 import RoomController from 'App/Controllers/Ws/RoomController'
+import User from 'App/Models/User'
 
 class Ws {
   public io: Server
@@ -21,6 +21,7 @@ class Ws {
 
     this.booted = true
     this.io = new Server(AdonisServer.instance!)
+
     this.io.use(async (socket, next) => {
       console.log('middleware')
       const token = socket.handshake.auth.token
@@ -32,6 +33,7 @@ class Ws {
       const idToken = await this.getIdToken(token)
 
       if (idToken) {
+        // idTokenから認証処理
         socket.data = idToken
         const authController = new AuthController(socket)
         await authController.login(idToken)
@@ -42,7 +44,11 @@ class Ws {
       return next(new Error('authentication error'))
     })
 
-    this.io.on('connection', (socket) => {
+    this.io.on('connection', async (socket) => {
+      // 復帰処理
+      const idToken = socket.data as DecodedIdToken
+      await User.websocketComebackProcess(idToken.uid, socket)
+      // WebSocketルーティング
       this.route(socket)
     })
   }
@@ -59,8 +65,7 @@ class Ws {
   private route(socket: Socket) {
     const auth = new AuthController(socket)
     const room = new RoomController(socket)
-    const menu = new MenuController(socket)
-    const lobby = new LobbyController(socket)
+    const game = new GameController(socket)
 
     socket.onAny(async (event, args, callback) => {
       switch (event) {
