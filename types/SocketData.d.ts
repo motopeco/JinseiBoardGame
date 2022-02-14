@@ -1,7 +1,7 @@
 declare namespace SocketServerData {
   // クライアントイベントのレスポンス用 --------------
   interface GetUserResult {
-    uid: string
+    id: number
   }
 
   interface CreateNewRoomResult {

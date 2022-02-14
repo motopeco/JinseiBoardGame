@@ -34,7 +34,7 @@ export default class RoomController extends BaseController {
       }
 
       const room = await Room.createData(data.name, data.password, trx)
-      await RoomUser.joinRoom(room.id, user.id, trx)
+      await RoomUser.joinRoom(Number(room.id), Number(user.id), trx)
       await trx.commit()
 
       result.isSuccess = true
@@ -79,7 +79,7 @@ export default class RoomController extends BaseController {
         return callback(result)
       }
 
-      await RoomUser.joinRoom(room.id, user.id, trx)
+      await RoomUser.joinRoom(Number(room.id), Number(user.id), trx)
       await trx.commit()
 
       result.isSuccess = true

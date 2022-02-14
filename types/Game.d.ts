@@ -46,4 +46,5 @@ declare interface GameData {
   turnPlayer: number
   // ターン数
   turnNumber: number
+  ownerPlayerId: number
 }

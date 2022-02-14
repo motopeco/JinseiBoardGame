@@ -14,7 +14,7 @@ export default class Preload extends Phaser.Scene {
 
   public update() {
     const store = this.game.config.store as Store<RootState>
-    if (store.state.auth.uid) {
+    if (store.state.auth.id) {
       this.scene.start('Menu')
     }
   }

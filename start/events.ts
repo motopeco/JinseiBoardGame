@@ -18,7 +18,7 @@ Event.on('notification', async (roomId) => {
   if (!room) return
 
   const data: UserStatus = {
-    roomId: room.id,
+    roomId: Number(room.id),
     gameData: room.gameData,
   }
 

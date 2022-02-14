@@ -35,6 +35,7 @@ export default class Room extends BaseModel {
       players: [],
       turnPlayer: 0,
       turnNumber: 0,
+      ownerPlayerId: -1,
     }
 
     await room.save()
@@ -45,6 +46,7 @@ export default class Room extends BaseModel {
   public static async getRoom(roomId: number, trx?: TransactionClientContract) {
     const query = Room.query().where('id', roomId)
     if (trx) {
+      query.forUpdate().noWait()
       query.useTransaction(trx)
     }
 

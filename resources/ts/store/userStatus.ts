@@ -5,7 +5,6 @@ import UserStatus = SocketServerData.UserStatus
 export const userStatusModule: Module<UserStatusState, RootState> = {
   namespaced: true,
   state: {
-    status: 0,
     roomId: -1,
     gameData: undefined,
   },
@@ -13,6 +12,10 @@ export const userStatusModule: Module<UserStatusState, RootState> = {
     update(state, userStatus: UserStatus) {
       state.roomId = userStatus.roomId
       state.gameData = userStatus.gameData
+    },
+    leaveRoom(state) {
+      state.roomId = -0
+      state.gameData = undefined
     },
   },
 }

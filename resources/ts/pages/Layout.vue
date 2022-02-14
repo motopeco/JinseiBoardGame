@@ -27,6 +27,7 @@ export default defineComponent({
 <template>
   <el-container class="app-container">
     <el-main>
+      ユーザID = {{ $store.state.auth.id }}
       <router-view></router-view>
     </el-main>
   </el-container>

@@ -30,6 +30,31 @@ export default class Game {
 
     room.useTransaction(trx)
     await room.save()
+
+    return true
+  }
+
+  public static async start(userId: number, roomId: number, trx: TransactionClientContract) {
+    const room = await Room.getRoom(roomId, trx)
+    if (!room) {
+      return false
+    }
+
+    const gameData = room.gameData
+    if (gameData.ownerPlayerId !== userId) {
+      return false
+    }
+
+    if (gameData.isStart) {
+      return false
+    }
+
+    gameData.isStart = true
+    room.gameData = gameData
+    room.useTransaction(trx)
+    await room.save()
+
+    return true
   }
 
   public static async next(userId: number, roomId: number, trx: TransactionClientContract) {
@@ -45,6 +70,8 @@ export default class Game {
     if (index < 0) return false
 
     const player = gameData.players[index]
-    if (gameData.turnPlayer !== player.playerId) return
+    if (gameData.turnPlayer !== player.playerId) return false
+
+    return true
   }
 }

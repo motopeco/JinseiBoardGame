@@ -20,7 +20,7 @@ export default class AuthController extends BaseController {
       throw new Error('foobar')
     }
 
-    const data: SocketServerData.GetUserResult = { uid: user.uid }
+    const data: SocketServerData.GetUserResult = { id: user.id }
     callback(data)
   }
 }

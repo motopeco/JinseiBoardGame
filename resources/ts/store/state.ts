@@ -4,11 +4,10 @@ export interface RootState {
 }
 
 export interface AuthState {
-  uid: string
+  id: number
 }
 
 export interface UserStatusState {
-  status: number
   roomId: number
   gameData?: GameData
 }

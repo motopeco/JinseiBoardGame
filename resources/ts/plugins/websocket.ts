@@ -24,9 +24,11 @@ class WebSocket {
     this.io.on('connect', () => {
       console.log('connect')
 
-      this.io.emit(SocketClientEvent.GetUser, {}, (result: SocketServerData.GetUserResult) => {
-        this.store.commit('auth/login', result.uid)
-      })
+      setTimeout(() => {
+        this.io.emit(SocketClientEvent.GetUser, {}, (result: SocketServerData.GetUserResult) => {
+          this.store.commit('auth/login', result.id)
+        })
+      }, 100)
     })
 
     this.io.on(SocketServerEvent.UserStatus, (result: UserStatus) => {

@@ -30,6 +30,8 @@ export default class RoomUser extends BaseModel {
 
     console.log(room.gameData.players)
 
+    room.gameData.ownerPlayerId = userId
+
     room.gameData.players.push({
       turnIndex: room.gameData.players.length,
       playerId: Number(userId),
