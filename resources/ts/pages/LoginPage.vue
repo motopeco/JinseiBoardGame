@@ -5,11 +5,18 @@ import SocketClientEvent from '../../../constants/SocketClientEvent'
 import CommonResult = SocketServerData.CommonResult
 import { useStore } from 'vuex'
 import { key } from '@/store'
+import { getAuth, signInAnonymously } from '@firebase/auth'
+import firebaseApp from '@/plugins/firebaseApp'
 
 export default defineComponent({
   name: 'LoginPage',
   setup() {
     const store = useStore(key)
+
+    const login = () => {
+      const auth = getAuth(firebaseApp)
+      signInAnonymously(auth)
+    }
 
     const createRoom = () => {
       const data: SocketClientData.CreateRoomData = {
@@ -51,6 +58,7 @@ export default defineComponent({
     }
 
     return {
+      login,
       createRoom,
       leaveRoom,
       ready,
@@ -66,7 +74,7 @@ export default defineComponent({
     <el-col :span="12" :offset="6">
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-button>ログイン</el-button>
+          <el-button @click="login">ログイン</el-button>
         </el-col>
         <el-col :span="24">
           <el-button @click="createRoom"> ルーム作成 </el-button>

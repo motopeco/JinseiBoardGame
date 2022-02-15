@@ -1,10 +1,13 @@
 import { TransactionClientContract } from '@ioc:Adonis/Lucid/Database'
 import Room from 'App/Models/Room'
+import GameProcess from 'App/Models/Utils/GameProcess'
 
 export default class Game {
   private constructor() {
     //
   }
+
+  private static gameProcesses = new Map<Number, GameProcess>()
 
   public static async toggleReadyUser(
     userId: number,
@@ -60,10 +63,17 @@ export default class Game {
       return false
     }
 
+    const firstPlayer = gameData.players.find((p) => p.turnIndex === 0)
+    if (!firstPlayer) return false
+
+    gameData.turnPlayer = firstPlayer.playerId
+
     gameData.isStart = true
     room.gameData = gameData
     room.useTransaction(trx)
     await room.save()
+
+    this.gameProcesses.set(roomId, new GameProcess())
 
     return true
   }
@@ -75,6 +85,11 @@ export default class Game {
     }
 
     const gameData = room.gameData
+
+    if (!gameData.isStart) {
+      return false
+    }
+
     const index = gameData.players.findIndex((p) => {
       return Number(p.playerId) === userId
     })
@@ -82,6 +97,12 @@ export default class Game {
 
     const player = gameData.players[index]
     if (gameData.turnPlayer !== player.playerId) return false
+
+    const process = this.gameProcesses.get(roomId) as GameProcess
+    room.gameData = await process!!.next(userId, roomId, gameData)
+
+    room.useTransaction(trx)
+    await room.save()
 
     return true
   }

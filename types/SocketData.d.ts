@@ -36,6 +36,10 @@ declare namespace SocketServerData {
 
   interface ShowRouletteResult {}
 
+  interface UpdateRouletteResult {
+    angle: number
+  }
+
   interface HideRouletteResult {}
 
   interface MovePieceResult {}
