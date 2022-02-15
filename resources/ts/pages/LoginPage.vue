@@ -38,10 +38,24 @@ export default defineComponent({
       })
     }
 
+    const start = () => {
+      websocket.getIO().emit(SocketClientEvent.StartGame, {}, (response: CommonResult) => {
+        console.log('start', response)
+      })
+    }
+
+    const next = () => {
+      websocket.getIO().emit(SocketClientEvent.DoNextGame, {}, (response: CommonResult) => {
+        console.log('next', response)
+      })
+    }
+
     return {
       createRoom,
       leaveRoom,
       ready,
+      start,
+      next,
     }
   },
 })
@@ -49,22 +63,41 @@ export default defineComponent({
 
 <template>
   <el-row :gutter="20">
-    <el-col :span="12" :offset="6">
+    <el-col :span="12"
+:offset="6">
       <el-row :gutter="20">
         <el-col :span="24">
           <el-button>ログイン</el-button>
         </el-col>
         <el-col :span="24">
-          <el-button @click="createRoom">ルーム作成</el-button>
+          <el-button @click="createRoom"> ルーム作成 </el-button>
         </el-col>
         <el-col :span="24">
-          <el-button @click="leaveRoom">ルーム退室</el-button>
+          <el-button @click="leaveRoom"> ルーム退室 </el-button>
         </el-col>
         <el-col :span="24">
-          <el-button @click="ready">レディー</el-button>
+          <el-button @click="ready"> レディー </el-button>
         </el-col>
-        <el-col :span="24">{{ $store.state.userStatus }}</el-col>
+        <el-col :span="24">
+          <el-button @click="start"> スタート </el-button>
+        </el-col>
+        <el-col :span="24">
+          <el-button @click="next"> ネクスト </el-button>
+        </el-col>
+        <el-col :span="24">
+          {{ $store.state.userStatus }}
+        </el-col>
       </el-row>
+    </el-col>
+    <el-col :span="24">
+      <el-table :data="$store.state.debug.events">
+        <el-table-column prop="event" label="イベント" />
+        <el-table-column prop="result" label="結果">
+          <template #default="scope">
+            {{ scope.row.result }}
+          </template>
+        </el-table-column>
+      </el-table>
     </el-col>
   </el-row>
 </template>

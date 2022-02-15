@@ -1,6 +1,7 @@
 export interface RootState {
   auth: AuthState
   userStatus: UserStatusState
+  debug: DebugState
 }
 
 export interface AuthState {
@@ -10,4 +11,8 @@ export interface AuthState {
 export interface UserStatusState {
   roomId: number
   gameData?: GameData
+}
+
+export interface DebugState {
+  events: { event: string, result: any }[]
 }

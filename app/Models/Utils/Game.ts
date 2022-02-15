@@ -17,6 +17,10 @@ export default class Game {
     }
 
     const gameData = room.gameData
+    if (gameData.isStart) {
+      return false
+    }
+
     const index = gameData.players.findIndex((p) => {
       return Number(p.playerId) === userId
     })
@@ -46,6 +50,13 @@ export default class Game {
     }
 
     if (gameData.isStart) {
+      return false
+    }
+
+    const notReady = gameData.players.find((p) => {
+      return p.isReady === false
+    })
+    if (notReady) {
       return false
     }
 

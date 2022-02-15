@@ -31,9 +31,14 @@ class WebSocket {
       }, 100)
     })
 
-    this.io.on(SocketServerEvent.UserStatus, (result: UserStatus) => {
-      console.log(result)
-      this.store.commit('userStatus/update', result)
+    this.io.onAny((event, result) => {
+      this.store.commit('debug/add', { event, result })
+
+      switch (event) {
+        case SocketServerEvent.UserStatus:
+          this.store.commit('userStatus/update', result)
+          break
+      }
     })
   }
 
