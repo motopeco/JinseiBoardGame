@@ -14,5 +14,5 @@ export interface UserStatusState {
 }
 
 export interface DebugState {
-  events: { event: string, result: any }[]
+  events: { event: string; result: any }[]
 }
