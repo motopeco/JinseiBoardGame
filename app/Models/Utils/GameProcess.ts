@@ -145,7 +145,9 @@ export default class GameProcess {
 
     const user = this.gameData.players[userIndex]
 
-    const currentMassIndex = this.gameData.gameMap.board.findIndex((map) => map.x === user.x && map.y === user.y)
+    const currentMassIndex = this.gameData.gameMap.board.findIndex(
+      (map) => map.x === user.x && map.y === user.y
+    )
     if (currentMassIndex < 0) {
       // error
       return
@@ -188,7 +190,9 @@ export default class GameProcess {
 
     const user = this.gameData.players[userIndex]
 
-    const currentMassIndex = this.gameData.gameMap.board.findIndex((map) => map.x === user.x && map.y === user.y)
+    const currentMassIndex = this.gameData.gameMap.board.findIndex(
+      (map) => map.x === user.x && map.y === user.y
+    )
     if (currentMassIndex < 0) {
       // error
       return

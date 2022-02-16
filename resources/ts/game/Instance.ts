@@ -4,7 +4,7 @@ import Phaser from 'phaser'
 import Preload from '@/game/scenes/Preload'
 import Game from '@/game/scenes/Game'
 import plugin from '@/game/plugin'
-import Menu from '@/game/scenes/Menu'
+import Lobby from '@/game/scenes/Lobby'
 
 export default class Instance {
   private store: Store<RootState>
@@ -20,7 +20,7 @@ export default class Instance {
       scale: {
         autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
       },
-      scene: [Preload, Game, Menu],
+      scene: [Preload, Game, Lobby],
       plugins: plugin,
     }
 
