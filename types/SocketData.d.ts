@@ -42,7 +42,11 @@ declare namespace SocketServerData {
 
   interface HideRouletteResult {}
 
-  interface MovePieceResult {}
+  interface MovePieceResult {
+    userId: number
+    x: number
+    y: number
+  }
 
   interface ShowMessageResult {
     message: string

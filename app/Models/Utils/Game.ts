@@ -99,6 +99,10 @@ export default class Game {
     if (gameData.turnPlayer !== player.playerId) return false
 
     const process = this.gameProcesses.get(roomId) as GameProcess
+    if (process.pause) {
+      return false
+    }
+
     room.gameData = await process!!.next(userId, roomId, gameData)
 
     room.useTransaction(trx)

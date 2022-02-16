@@ -36,6 +36,10 @@ export default class Room extends BaseModel {
       turnPlayer: 0,
       turnNumber: 0,
       ownerPlayerId: -1,
+      gameMap: {
+        name: 'サンプルマップ',
+        board: [],
+      },
     }
 
     await room.save()

@@ -28,6 +28,17 @@ declare interface GamePlayer {
   y: number
 }
 
+declare interface MapData {
+  x: number
+  y: number
+  isStop: boolean
+}
+
+declare interface GameMap {
+  name: string
+  board: MapData[]
+}
+
 declare interface GameData {
   // ゲーム開始フラグ
   isStart: boolean
@@ -47,4 +58,5 @@ declare interface GameData {
   // ターン数
   turnNumber: number
   ownerPlayerId: number
+  gameMap: GameMap
 }
