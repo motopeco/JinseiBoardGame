@@ -38,7 +38,19 @@ export default class Room extends BaseModel {
       ownerPlayerId: -1,
       gameMap: {
         name: 'サンプルマップ',
-        board: [],
+        board: [
+          { x: 0, y: 0, isStop: false },
+          { x: 1, y: 0, isStop: false },
+          { x: 2, y: 0, isStop: false },
+          { x: 3, y: 0, isStop: false },
+          { x: 4, y: 0, isStop: false },
+          { x: 5, y: 0, isStop: false },
+          { x: 6, y: 0, isStop: false },
+          { x: 7, y: 0, isStop: false },
+          { x: 8, y: 0, isStop: false },
+          { x: 9, y: 0, isStop: false },
+          { x: 10, y: 0, isStop: false },
+        ],
       },
     }
 

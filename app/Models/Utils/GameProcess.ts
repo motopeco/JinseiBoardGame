@@ -228,11 +228,13 @@ export default class GameProcess {
 
     const user = this.gameData.players[userIndex]
     let nextUser = this.gameData.players.find((p) => p.turnIndex === user.turnIndex + 1)
-    if (nextUser) {
+    if (!nextUser) {
       nextUser = this.gameData.players.find((p) => p.turnIndex === 0)
     }
 
-    this.gameData.turnPlayer = nextUser!.playerId
+    if (!nextUser) return
+
+    this.gameData.turnPlayer = nextUser.playerId
     this.gameData.status = GameStatus.TurnStart
     this.gameData.turnNumber++
 
