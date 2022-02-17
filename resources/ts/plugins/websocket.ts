@@ -28,6 +28,14 @@ class WebSocket {
         this.io.emit(SocketClientEvent.GetUser, {}, (result: SocketServerData.GetUserResult) => {
           this.store.commit('auth/login', result.id)
         })
+
+        this.io.emit(
+          SocketClientEvent.GetRooms,
+          {},
+          (result: SocketServerData.UpdateRoomListResult) => {
+            this.store.commit('lobby/update', result)
+          }
+        )
       }, 100)
     })
 
@@ -38,6 +46,8 @@ class WebSocket {
         case SocketServerEvent.UserStatus:
           this.store.commit('userStatus/update', result)
           break
+        case SocketServerEvent.UpdateRoomList:
+          this.store.commit('lobby/update', result)
       }
     })
   }

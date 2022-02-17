@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Layout from '@/pages/Layout.vue'
 import LoginPage from '@/pages/LoginPage.vue'
 import GamePage from '@/pages/GamePage.vue'
+import HomePage from '@/pages/HomePage.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -10,7 +11,7 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         path: '',
-        component: LoginPage,
+        component: HomePage,
       },
       {
         path: 'game',

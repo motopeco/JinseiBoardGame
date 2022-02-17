@@ -1,6 +1,7 @@
 const SocketServerEvent = {
   Auth: 'auth',
   UserStatus: 'user_status',
+  UpdateRoomList: 'update_room_list',
   // game event
   ShowTurnInfo: 'show_turn_info',
   HideTurnInfo: 'hide_turn_info',

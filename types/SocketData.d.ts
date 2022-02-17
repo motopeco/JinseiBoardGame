@@ -53,6 +53,16 @@ declare namespace SocketServerData {
   }
 
   interface HideMessageResult {}
+
+  interface UpdateRoomListResult {
+    rooms: {
+      id: number
+      name: string
+      gameData: GameData
+      createdAt: DateTime
+      updatedAt: DateTime
+    }[]
+  }
 }
 
 declare namespace SocketClientData {

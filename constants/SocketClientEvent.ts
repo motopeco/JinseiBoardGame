@@ -13,6 +13,8 @@ const SocketClientEvent = {
   StartGame: 'start',
   // ゲーム進行用（ターンのプレイヤーのみ）
   DoNextGame: 'do_next_game',
+  // その他
+  GetRooms: 'get_rooms',
 } as const
 
 type SocketClientEvent = typeof SocketClientEvent[keyof typeof SocketClientEvent]

@@ -1,9 +1,10 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
-import { TransactionClientContract } from '@ioc:Adonis/Lucid/Database'
+import Database, { TransactionClientContract } from '@ioc:Adonis/Lucid/Database'
 import Encryption from '@ioc:Adonis/Core/Encryption'
 import Hash from '@ioc:Adonis/Core/Hash'
 import GameStatus from '../../constants/GameStatus'
+import { number } from "@adonisjs/env/build/src/Schema/number";
 
 export default class Room extends BaseModel {
   @column({ isPrimary: true })
@@ -67,5 +68,11 @@ export default class Room extends BaseModel {
     }
 
     return query.first()
+  }
+
+  public static async getRooms() {
+    return Room.query()
+      .select(['id', 'name', 'game_data', 'created_at', 'updated_at'])
+      .orderBy('id')
   }
 }

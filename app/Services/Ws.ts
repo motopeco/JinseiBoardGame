@@ -90,6 +90,8 @@ class Ws {
         case SocketClientEvent.DoNextGame:
           await game.next(callback)
           break
+        case SocketClientEvent.GetRooms:
+          await room.getRoomList(callback)
       }
     })
   }

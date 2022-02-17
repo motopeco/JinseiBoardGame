@@ -10,6 +10,7 @@ import UserStatus = SocketServerData.UserStatus
 import SocketServerEvent from '../../../constants/SocketServerEvent'
 import RoomUsers from 'Database/migrations/1644719035483_room_users'
 import Event from '@ioc:Adonis/Core/Event'
+import Ws from 'App/Services/Ws'
 
 export default class RoomController extends BaseController {
   public async createNewRoom(data: SocketClientData.CreateRoomData, callback: any) {
@@ -124,7 +125,7 @@ export default class RoomController extends BaseController {
         return callback(result)
       }
 
-      await RoomUser.leaveAllRoom(roomUser.roomId, user.id, trx)
+      await RoomUser.leaveAllRoom(roomUser.roomId, Number(user.id), trx)
       await trx.commit()
 
       result.isSuccess = true
@@ -140,5 +141,39 @@ export default class RoomController extends BaseController {
       // TODO Error
       return callback(result)
     }
+  }
+
+  public async updateRoomList() {
+    const rooms = await Room.getRooms()
+    const result: SocketServerData.UpdateRoomListResult = {
+      rooms: rooms.map((room) => {
+        return {
+          id: Number(room.id),
+          name: room.name,
+          gameData: room.gameData,
+          createdAt: room.createdAt,
+          updatedAt: room.updatedAt,
+        }
+      }),
+    }
+
+    Ws.io.emit(SocketServerEvent.UpdateRoomList, result)
+  }
+
+  public async getRoomList(callback: any) {
+    const rooms = await Room.getRooms()
+    const result: SocketServerData.UpdateRoomListResult = {
+      rooms: rooms.map((room) => {
+        return {
+          id: Number(room.id),
+          name: room.name,
+          gameData: room.gameData,
+          createdAt: room.createdAt,
+          updatedAt: room.updatedAt,
+        }
+      }),
+    }
+
+    callback(result)
   }
 }
